@@ -1,21 +1,38 @@
 <?php
-function breakLines(string $string, int $maxLength): string {
-    $words = explode(' ', $string);
-    $lines = [];
-    $currentLine = '';
 
-    foreach ($words as $word) {
-        $potentialLine = trim($currentLine . ' ' . $word);
+function breakLines($string, $maxLength): string
+{
+    // Split the input string into lines
+    $lines = explode("\n", $string);
 
-        if (strlen($potentialLine) <= $maxLength) {
-            $currentLine = $potentialLine;
-        } else {
-            $lines[] = rtrim($currentLine);
-            $currentLine = $word;
+    // Initialize variables
+    $result = '';
+
+    // Iterate through each line
+    foreach ($lines as $line) {
+        // Explode the line into an array of words
+        $words = explode(' ', $line);
+        $currentLine = '';
+
+        // Iterate through each word
+        foreach ($words as $word) {
+            // Check if adding the word to the current line exceeds the maximum length
+            if (strlen($currentLine . $word) <= $maxLength) {
+                // If not, add the word to the current line
+                $currentLine .= $word . ' ';
+            } else {
+                // If it exceeds the maximum length, start a new line
+                $result .= rtrim($currentLine) . "\n";
+                $currentLine = $word . ' ';
+            }
         }
+
+        // Add the last line to the result
+        $result .= rtrim($currentLine) . "\n";
     }
 
-    $lines[] = rtrim($currentLine);
+    // Remove the trailing newline character
+    $result = rtrim($result);
 
-    return implode("\n", $lines);
+    return $result;
 }
