@@ -4,16 +4,18 @@ function breakLines(string $string, int $maxLength): string {
     $lines = [];
     $currentLine = '';
 
-    foreach($words as $word) {
-        $potentialLine = $currentLine . $word . ' ';
+    foreach ($words as $word) {
+        $potentialLine = trim($currentLine . ' ' . $word);
+
         if (strlen($potentialLine) <= $maxLength) {
-            $currentLine .= $potentialLine;
+            $currentLine = $potentialLine;
         } else {
             $lines[] = rtrim($currentLine);
-            $currentLine = $word . ' ';
+            $currentLine = $word;
         }
     }
 
     $lines[] = rtrim($currentLine);
+
     return implode("\n", $lines);
 }
