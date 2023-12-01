@@ -5,8 +5,9 @@ function breakLines(string $string, int $maxLength): string {
     $currentLine = '';
 
     foreach($words as $word) {
-        if (strlen($currentLine) + strlen($word) + 1 < $maxLength) {
-            $currentLine .= $word . ' ';
+        $potentialLine = $currentLine . $word . ' ';
+        if (strlen($potentialLine) <= $maxLength) {
+            $currentLine .= $potentialLine;
         } else {
             $lines[] = rtrim($currentLine);
             $currentLine = $word . ' ';
