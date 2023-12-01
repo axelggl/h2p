@@ -13,8 +13,7 @@ function upperCaseFirst(string $input): string {
 
 function lowerCaseFirst(string $input): string {
     $words = explode(' ', $input);
-    $lowercasedWords = array_map('strtolower', $words);
-    $lowercasedWords[0] = ucfirst($lowercasedWords[0]);
+    $lowercasedWords = array_map('lcfirst', $words);
     return implode(' ', $lowercasedWords);
 }
 
