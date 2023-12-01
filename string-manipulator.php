@@ -12,7 +12,10 @@ function upperCaseFirst(string $input): string {
 }
 
 function lowerCaseFirst(string $input): string {
-    return lcfirst($input);
+    $words = explode(' ', $input);
+    $lowercasedWords = array_map('strtolower', $words);
+    $lowercasedWords[0] = ucfirst($lowercasedWords[0]);
+    return implode(' ', $lowercasedWords);
 }
 
 function removeBlankSpace(string $input): string {
