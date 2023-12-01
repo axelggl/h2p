@@ -5,7 +5,7 @@ function breakLines(string $string, int $maxLength): string {
     $currentLine = '';
 
     foreach($words as $word) {
-        if (strlen($currentLine) + strlen($word) + 1 <= $maxLength) {
+        if (strlen($currentLine) + strlen($word) + 1 < $maxLength) {
             $currentLine .= $word . ' ';
         } else {
             $lines[] = rtrim($currentLine);
