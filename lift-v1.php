@@ -1,55 +1,69 @@
 <?php
 
-function getFloor(int $currentFloor, ?int $requestedFloor, array $calledFloors): int {
-    // If there is a requested floor, go to that floor
+function getFloor($currentFloor, $requestedFloor, $calledFloors): ?int
+{
+    // If there is a requested floor, go directly to that floor
     if ($requestedFloor !== null) {
-        return $requestedFloor;
+        return (int) $requestedFloor;
     }
+    // print to terminal
 
     // If there are called floors, go to the nearest called floor
     if (!empty($calledFloors)) {
-        return findNearestFloor($currentFloor, $calledFloors);
+        $nearestFloor = getNearestNumberInArray($currentFloor, $calledFloors);
+
+        return (int) $nearestFloor;
     }
 
-    // If there are no requests, stay on the current floor
-    return null;
+    // If there are no requested or called floors, stay on the current floor
+    return (int) $currentFloor;
 }
 
-function getDirection(int $currentFloor, ?int $requestedFloor, array $calledFloors): int {
-    // If there is a requested floor, determine the direction
+function getDirection($currentFloor, $requestedFloor, $calledFloors): int
+{
     if ($requestedFloor !== null) {
-        return ($requestedFloor > $currentFloor) ? 1 : -1;
+        // If there is a requested floor, determine the direction to reach it
+        return ($requestedFloor > $currentFloor) ? 1 : (($requestedFloor < $currentFloor) ? -1 : 0);
     }
 
-    // If there are called floors, determine the direction based on the nearest called floor
     if (!empty($calledFloors)) {
-        $nearestFloor = findNearestFloor($currentFloor, $calledFloors);
-        return ($nearestFloor > $currentFloor) ? 1 : -1;
+        // If there are called floors, determine the direction to reach the nearest called floor
+        $nearestFloor = min($calledFloors, function ($floor) use ($currentFloor) {
+            return abs($floor - $currentFloor);
+        });
+
+        return ($nearestFloor > $currentFloor) ? 1 : (($nearestFloor < $currentFloor) ? -1 : 0);
     }
 
-    // If there are no requests, no movement is needed
+    // If there are no requested or called floors, no movement is needed
     return 0;
 }
 
-function findNearestFloor(int $currentFloor, array $floors): int {
-    $nearestFloor = $floors[0];
+// return an integer
+// take as input an integer and an array of integers
+// return the integer in the array that is closest to the input integer
+function getNearestNumberInArray($numbers, $reference) {
+    $nearest = null;
+    $nearestDistance = null;
 
-    foreach ($floors as $floor) {
-        if (abs($floor - $currentFloor) < abs($nearestFloor - $currentFloor)) {
-            $nearestFloor = $floor;
+    foreach ($reference as $number) {
+        $distance = abs($number - $numbers);
+
+        if ($nearestDistance === null || $distance < $nearestDistance) {
+            $nearest = $number;
+            $nearestDistance = $distance;
         }
     }
 
-    return $nearestFloor;
+    return $nearest;
 }
 
-// Example Usage:
-$currentFloor = 5;
-$requestedFloor = 8;
-$calledFloors = [2, 7, 10];
+// Example usage:
+$currentFloor = 0;
+$requestedFloor = null;
+$calledFloors = [-12, 6];
 
 $nextFloor = getFloor($currentFloor, $requestedFloor, $calledFloors);
 $direction = getDirection($currentFloor, $requestedFloor, $calledFloors);
 
-echo "Next Floor: $nextFloor\n";
-echo "Direction: $direction\n";
+echo "Next floor: $nextFloor, Direction: $direction\n";
