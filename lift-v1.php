@@ -12,7 +12,7 @@ function getFloor(int $currentFloor, ?int $requestedFloor, array $calledFloors):
     }
 
     // If there are no requests, stay on the current floor
-    return $currentFloor;
+    return null;
 }
 
 function getDirection(int $currentFloor, ?int $requestedFloor, array $calledFloors): int {
