@@ -16,33 +16,14 @@ function getFloor($currentFloor, $requestedFloor, $calledFloors): ?int
     }
 
     // If there are no requested or called floors, stay on the current floor
-    return (int) $currentFloor;
+    return null;
 }
 
-function getDirection($currentFloor, $requestedFloor, $calledFloors): int
-{
-    if ($requestedFloor !== null) {
-        // If there is a requested floor, determine the direction to reach it
-        return ($requestedFloor > $currentFloor) ? 1 : (($requestedFloor < $currentFloor) ? -1 : 0);
-    }
-
-    if (!empty($calledFloors)) {
-        // If there are called floors, determine the direction to reach the nearest called floor
-        $nearestFloor = min($calledFloors, function ($floor) use ($currentFloor) {
-            return abs($floor - $currentFloor);
-        });
-
-        return ($nearestFloor > $currentFloor) ? 1 : (($nearestFloor < $currentFloor) ? -1 : 0);
-    }
-
-    // If there are no requested or called floors, no movement is needed
-    return 0;
-}
-
-// return an integer
-// take as input an integer and an array of integers
-// return the integer in the array that is closest to the input integer
 function getNearestNumberInArray($numbers, $reference) {
+    if (empty($reference)) {
+        return null;
+    }
+
     $nearest = null;
     $nearestDistance = null;
 
@@ -58,10 +39,36 @@ function getNearestNumberInArray($numbers, $reference) {
     return $nearest;
 }
 
+function getDirection($currentFloor, $requestedFloor, $calledFloors): int
+{
+    // return 0 if no movement is needed
+    if ($currentFloor === $requestedFloor) {
+        return 0;
+    }
+
+    // find the nearest floor among the called floors
+    $nearestFloor = getNearestNumberInArray($currentFloor, $calledFloors);
+
+    // return 1 if the elevator needs to go up
+    if ($currentFloor < $requestedFloor || $currentFloor < $nearestFloor) {
+        return 1;
+    }
+    // return -1 if the elevator needs to go down
+    else {
+        return -1;
+    }
+    // handle the case when there are no called floors
+    if (empty($calledFloors)) {
+        return 0;
+    }
+}
+
+
+
 // Example usage:
 $currentFloor = 0;
-$requestedFloor = null;
-$calledFloors = [-12, 6];
+$requestedFloor = 1;
+$calledFloors = [];
 
 $nextFloor = getFloor($currentFloor, $requestedFloor, $calledFloors);
 $direction = getDirection($currentFloor, $requestedFloor, $calledFloors);
