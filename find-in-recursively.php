@@ -1,17 +1,18 @@
-<?php
-function findIn(string $valueKey)
-{
-        $tab = [
-        "name" => "forIn",
-        "type" => "function",
-        "arguments" => [
-            "firstParam" => [
-                "paramType" => "string",
-                "description" => "the value key to find"
-            ],
-            "secondParam" => "array"
-        ],
-        "return" => "string or bool"
-    ];
-    return key_exists($valueKey, $tab);
+<?php 
+function findIn($keyValue, $array):string | bool {
+
+    if (array_key_exists($keyValue, $array)) {
+        return $array[$keyValue];
+    }
+
+    foreach ($array as $value) {
+        if (is_array($value)) {
+            $result = findIn($keyValue, $value);
+            if ($result !== false) {
+                return $result;
+            }
+        }
+    }
+
+    return false;
 }
