@@ -10,7 +10,7 @@ function manageMovements(string $str): array {
     $word = '';
     $last = '';
 
-    for ($i = 0; i < strlen($str); $i++) {
+    for ($i = 0; $i < strlen($str); $i++) {
         if ($str[$i] == $last) {
             $word = $tab[$str[$i]] . 'AGAIN';
             array_push($res, $word);
