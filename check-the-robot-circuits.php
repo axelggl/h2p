@@ -2,8 +2,8 @@
 function checkCircuits(int $int): array {
         $finalArray = [];
         $tab = [
-            2 => 'Left Arm',
-            3 => 'Right Arm',
+            2 => 'Left arm',
+            3 => 'Right arm',
             5 => 'Motherboard',
             7 => 'Processor',
             11 => 'Zip Defluxer',
