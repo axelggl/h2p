@@ -8,4 +8,5 @@ function myArrayReduce(array $array, callable $callback, $initial = null) {
     }
 
     return $accumulator;
+    echo $accumulator;
 }
