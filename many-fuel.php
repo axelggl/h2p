@@ -5,7 +5,7 @@ class Car
 
     private float $tank;
 
-    public function __construct(float $tank)
+    public function __construct()
     {
         $this->tank = 0;
     }
