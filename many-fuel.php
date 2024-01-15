@@ -18,11 +18,13 @@ class Car
     public function setTank(float $tank): self
     {
         $this->tank = $tank;
+        return $this;
     }
 
     public function addFuel(float $gallons): self
     {
         $this->tank += $gallons;
+        return $this;
     }
 
     public function ride(float $distance): self
