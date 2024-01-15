@@ -14,17 +14,17 @@ class Magic
         echo "Détruit un objet\n";
     }
 
-    public function __get()
+    public function __get($name)
     {
         echo "Renvoie la valeur d'une donnée inaccessible\n";
     }
 
-    public function __set()
+    public function __set($name, $value)
     {
         echo "Modifie la valeur d'une donnée inaccessible\n";
     }
 
-    public function __isset()
+    public function __isset($name)
     {
         echo "Vérifie si une donnée inaccessible est définie\n";
     }
