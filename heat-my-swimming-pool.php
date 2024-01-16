@@ -1,39 +1,35 @@
 <?php
 
 interface PoolTempsInterface {
-    
-    public function getActualTemp(): int;
-    public function getLastDaysTemps(): array;  
-    public function setHeater(bool $isActive): self;
+    function getActualTemp(): int;
+    function getLastDaysTemps(): array;
+    function setHeater(bool $isHeaterOn): void;
 }
 
 class PoolTemps implements PoolTempsInterface {
-    private int $currentTemp;
+    private int $actualTemp;
     private array $lastDaysTemps;
     public bool $isActive = false;
-
-    public function __construct(int $currentTemp, array $lastDaysTemps) {
-        $this->currentTemp = $currentTemp;
+    
+    public function __construct(int $actualTemp, array $lastDaysTemps) {
+        $this->actualTemp = $actualTemp;
         $this->lastDaysTemps = $lastDaysTemps;
     }
-
+    
     public function getActualTemp(): int {
-        return $this->currentTemp;
+        return $this->actualTemp;
     }
-
     public function getLastDaysTemps(): array {
         return $this->lastDaysTemps;
     }
-
-    public function setHeater(bool $isActive): self {
-        $this->isActive = $isActive;
-        return $this;
+    public function setHeater(bool $isHeaterOn): void {
+        $this->isActive = $isHeaterOn;
     }
-
-    public function activateHeater(): self {
-        $averageTemp = array_sum($this->lastDaysTemps) / count($this->lastDaysTemps);
-        if ($averageTemp > 20 && $this->currentTemp >= 25) {
-            $this->isActive = true;
+    
+    public function activateHeater(): void {
+        $averageLastDaysTemp = array_sum($this->lastDaysTemps) / count($this->lastDaysTemps);
+        if ($averageLastDaysTemp > 20 && $this->actualTemp >= 25) {
+            $this->setHeater(true);
         }
     }
 }
