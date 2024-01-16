@@ -25,12 +25,12 @@ class PoolTemps implements PoolTempsInterface {
         return $this->lastDaysTemps;
     }
 
-    public function setHeater(bool $isActive): void {
+    public function setHeater(bool $isActive): self {
         $this->isActive = $isActive;
         return $this;
     }
 
-    public function activateHeater(): void {
+    public function activateHeater(): self {
         $averageTemp = array_sum($this->lastDaysTemps) / count($this->lastDaysTemps);
         if ($averageTemp > 20 && $this->currentTemp >= 25) {
             $this->isActive = true;
